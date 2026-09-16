@@ -11,6 +11,16 @@ A native SwiftUI **UI shell** ported from the [FlowLinks](https://github.com/pla
 
 Not included in this pass (bigger, separate effort if you want them next): the canvas/graph view, freehand handwriting capture, voice notes, and the Claude chat panel — those depend on heavier native equivalents (a canvas/graph engine, PencilKit, etc.) that are worth scoping on their own.
 
+## Building via GitHub Actions (no Mac needed)
+
+Every push to `main` runs `.github/workflows/build-ipa.yml` on a GitHub-hosted macOS runner: it installs XcodeGen, generates the project, builds the app **unsigned** (`CODE_SIGNING_ALLOWED=NO`), and packages it as `ContraLinks.ipa`.
+
+To get the file: open the repo's **Actions** tab → latest run → download the `ContraLinks-unsigned-ipa` artifact (a zip containing the `.ipa`).
+
+This `.ipa` is unsigned, which is exactly what tools like **AltStore** / **SideStore** expect — they re-sign it with your own Apple ID at install time. Add it in AltStore via **My Apps → + → pick the file**.
+
+You can also trigger a build manually without pushing: Actions tab → "Build unsigned IPA" → **Run workflow**.
+
 ## Building this on a Mac (e.g. MacinCloud)
 
 This project uses [XcodeGen](https://github.com/yonaskolb/XcodeGen) to generate the `.xcodeproj` from `project.yml` — that file is not committed, so you regenerate it fresh:
